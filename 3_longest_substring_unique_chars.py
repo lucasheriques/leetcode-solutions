@@ -1,7 +1,7 @@
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-        if not s:
-            return 0
+        if len(s) < 2:
+            return len(s)
 
         begin, end = 0, 0
         table = {}
@@ -9,11 +9,8 @@ class Solution:
 
         while end < len(s):
             if s[end] in table:
-                # if it's a char that we already found previously,
-                # keep begin in the latest one
-                begin = max(table[s[end]] + 1, 1)
+                begin = max(table[s[end]] + 1, begin)
 
-            # found a bigger string
             if end - begin + 1 > maxlen:
                 maxlen = end - begin + 1
 
@@ -24,4 +21,4 @@ class Solution:
 
 
 q = Solution()
-q.lengthOfLongestSubstring("abba")
+print(q.lengthOfLongestSubstring("abbaakwikqwerty"))
