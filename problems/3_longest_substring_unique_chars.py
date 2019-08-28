@@ -11,8 +11,8 @@ class Solution:
             if s[end] in table:
                 begin = max(table[s[end]] + 1, begin)
 
-            if end - begin + 1 > maxlen:
-                maxlen = end - begin + 1
+            # test if found a bigger string
+            maxlen = max(maxlen, end - begin + 1)
 
             table[s[end]] = end
             end += 1
@@ -21,4 +21,4 @@ class Solution:
 
 
 q = Solution()
-print(q.lengthOfLongestSubstring("abbaakwikqwerty"))
+print(q.lengthOfLongestSubstring("adbccba"))
