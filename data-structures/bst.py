@@ -42,39 +42,39 @@ class BST:
                 node = node.right
         return False
 
-    def is_leaf(self, node):
-        return node.left is None and node.right is None
+    def get_min_value(self):
+        current_node = self
+        while current_node.left is not None:
+            current_node = current_node.left
+        return current_node.value
 
-    def remove(self, value):
-        root = self
-        removed = False
-        while not removed and root is not None:
-            if value == root.value:
-                removed = True
-                if self.is_leaf(root):
-                    root = None
-
-                elif root.left:
-                    if root.right:
-                        new = root.right
-                        while new.left is not None:
-                            new = new.left
-                        root.value = new.value
-                        self.remove(new)
-
-                    else:
-                        root.value = root.left.value
-                        root.left = None
-
-                elif root.right:
-                    root.value = root.right.value
-                    root.right = None
-
-            elif value < root.value:
-                root = root.left
-
+    def remove(self, value, parent_node=None):
+        current_node = self
+        while current_node is not None:
+            if value < current_node.value:
+                parent_node = current_node
+                current_node = current_node.left
+            elif value > current_node.value:
+                parent_node = current_node
+                current_node = current_node.right
             else:
-                root = root.right
+                if current_node.left and current_node.right:
+                    current_node.value = current_node.right.get_min_value()
+                    current_node.right.remove(current_node.value, current_node)
+                elif parent_node is None:
+                    if current_node.left is not None:
+                        current_node.value = current_node.left.value
+                        current_node.right = current_node.left.right
+                        current_node.left = current_node.left.left
+                    elif current_node.right is not None:
+                        current_node.value = current_node.right.value
+                        current_node.left = current_node.right.left
+                        current_node.right = current_node.right.right
+                elif parent_node.left == current_node:
+                    parerent_node.left = current_node.left if current_node.left else current_node.right
+                elif parent_node.right == current_node:
+                    parent_node.right = current_node.left if current_node.left else current_node.right
+
         return self
 
 
