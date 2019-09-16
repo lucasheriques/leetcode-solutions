@@ -10,6 +10,8 @@
 #         self.next = None
 
 
+# O(1) space | O(N + D), where D is distance between first node and cycle begins
+# and N is number of nodes
 class Solution:
     def detectCycle(self, head: ListNode) -> ListNode:
         slow, fast = head, head
