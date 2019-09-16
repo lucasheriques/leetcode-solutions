@@ -12,7 +12,7 @@ class Solution:
         min_coins[0] = 0
 
         for coin in coins:
-            for n in range(1, amount + 1):
+            for n in range(1, len(min_coins)):
                 if coin <= n:
                     min_coins[n] = min(min_coins[n], min_coins[n - coin] + 1)
 
