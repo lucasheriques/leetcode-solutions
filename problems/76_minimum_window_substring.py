@@ -1,20 +1,19 @@
-import sys
+from collections import Counter
 
 
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
-        table = {}
+        if len(s) < len(t) or not s or not t:
+            return ""
 
-        for c in t:
-            table[c] = table.get(c, 0) + 1
-
-        begin, end = 0, 0
+        table = Counter(t)
         counter = len(table)
-        curr_length = sys.maxsize
 
-        ans = ""
+        begin = end = 0
 
-        while (end < len(s)):
+        response = (0, len(s))
+
+        while end < len(s):
             endchar = s[end]
 
             if endchar in table:
@@ -24,17 +23,20 @@ class Solution:
 
             end += 1
 
-            while (counter == 0):
-                if (end-begin < curr_length):
-                    ans = s[begin:end]
-                    curr_length = end-begin
+            while counter == 0:
+                if response[1] - response[0] > end - begin:
+                    response = (begin, end)
 
-                startchar = s[begin]
-                if (startchar in table):
-                    table[startchar] += 1
-                    if table[startchar] > 0:
+                beginchar = s[begin]
+
+                if beginchar in table:
+                    table[beginchar] += 1
+                    if table[beginchar] > 0:
                         counter += 1
 
                 begin += 1
 
-        return ans
+        return s[response[0]:response[1]]
+
+
+Solution().minWindow("ab", "b")
